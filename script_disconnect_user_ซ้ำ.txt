@@ -1,0 +1,10 @@
+#!/bin/bash
+
+radwho | awk '{print $2}' | uniq -d > /tmp/rw.txt
+
+file=`cat /tmp/rw.txt`
+while read line;
+do
+        echo -e "$line \n";
+        echo "User-Name=$line "|radclient -x 127.0.0.1:3779 disconnect 0ew,j8jvpwfh
+done < /tmp/radwho.txt

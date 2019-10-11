@@ -1,0 +1,12 @@
+#!/bin/bash
+echo -n "Input SoftwareID : "
+read SoftwareID
+
+Hotspot=`echo -n $SoftwareID | base64 | sha1sum | cut -c1,3,5,2,4,6,8-10 | md5sum | cut -c2,4,8,10,11-12`
+echo "Hotspot Key =" $Hotspot
+
+PPPoE=`echo -n $SoftwareID | base64 | sha1sum | cut -c1,3,5,2,4,6,9-12 | md5sum | cut -c2,3,4,8,12,13`
+echo "Hotspot_PPPoE Key =" $PPPoE
+
+V1010=`echo -n "$SoftwareID" | base64 | sha1sum | cut -c1,3,5,2,8-13 | md5sum | cut -c2,4,8,10,11-13`
+echo "V1010 Key =" $V1010

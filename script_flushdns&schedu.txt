@@ -1,0 +1,8 @@
+/system script 
+add name=dnsflush policy=ftp,reboot,read,write,policy,test,winbox,password,sniff,sensitive,api source="/ip dns cache flush"
+
+
+/system scheduler
+add disabled=no interval=1h name=dnsflush on-event=dnsflush policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive \
+    start-time=startup

@@ -1,0 +1,31 @@
+In that case, you have to use mangle to force PPTP packets to be routed over one uplink while SSTP packets engress the other uplink.
+
+PPTP make use of TCP:1723 and IP Protocol=GRE (value 47) 
+
+SSTP make use of TCP:443
+Code: Select all
+
+
+/ip firewall mangle
+add action=mark-routing chain=output disabled=no dst-port=1723 new-routing-mark=PPTP passthrough=no protocol=tcp
+add action=mark-routing chain=output disabled=no new-routing-mark=PPTP passthrough=no protocol=gre
+add action=mark-routing chain=output disabled=no dst-port=443 new-routing-mark=SSTP passthrough=no protocol=tcp
+
+
+Now add policy routes for routing-marks PPTP and SSTP
+Code: Select all
+
+
+/ip route
+add disabled=no distance=1 dst-address=5d69020270a2.sn.mynetname.net gateway=wan1 routing-mark=PPT
+add disabled=no distance=1 dst-address=5d69020270a2.sn.mynetname.net gateway=wan2 routing-mark=SSTP
+
+/ip route rule
+add action=lookup comment="" disabled=no routing-mark=SSTP table=SSTP
+add action=lookup comment="" disabled=no routing-mark=PPTP table=PPTP
+add action=lookup comment="" disabled=no table=main
+
+
+Replace x.x.x.x with the actual IP address of VPN server.
+
+Now fire up your SSTP-client and PPTP Client.

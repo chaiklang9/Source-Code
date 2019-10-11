@@ -1,0 +1,19 @@
+/ip firewall filter
+add action=drop chain=virus comment="Drop Blaster Worm" disabled=no dst-port=135-139 protocol=tcp
+add action=drop chain=virus comment="Drop Messenger Worm" disabled=no dst-port=135-139 protocol=udp
+add action=drop chain=virus comment="Drop Blaster Worm" disabled=no dst-port=444-445 protocol=tcp
+add action=drop chain=virus comment="Drop Blaster Worm" disabled=no dst-port=444-445 protocol=udp
+
+
+/ip firewall mangle
+add action=add-src-to-address-list address-list=Worm-Infected-p445 address-list-timeout=1h chain=prerouting connection-state=new disabled=no dst-port=445 limit=5,10 protocol=tcp
+
+/ip firewall filter
+add action=drop chain=forward disabled=no dst-port=445 protocol=tcp src-address-list=Worm-Infected-p445
+
+================
+
+/ip firewall filter
+add action=drop chain=forward comment="block wannacry worm" dst-port=139,445 \
+in-interface=pppoe-out1-CAT protocol=tcp
+/ip firewall filter move [/ip firewall filter find comment="block wannacry worm"] 0

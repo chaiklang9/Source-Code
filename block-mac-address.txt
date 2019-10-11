@@ -1,0 +1,16 @@
+#!/bin/bash
+#DROP MAC ADDRESS USER : Tshouse2501
+iptables -I INPUT -m mac --mac-source 04:7D:7B:16:F4:8A -j DROP
+
+#DROP MAC ADDRESS USER : tshouse2703
+iptables -I INPUT -m mac --mac-source F8:CA:B8:1F:48:53 -j DROP
+iptables -I INPUT -m mac --mac-source EC:85:2F:B0:8B:50 -j DROP
+iptables -I INPUT -m mac --mac-source 18:CF:5E:D8:AF:20 -j DROP
+
+#DROP MAC ADDRESS USER : tshouse2612
+#iptables -I INPUT -m mac --mac-source 40:B3:95:16:5E:C1 -j DROP
+iptables -I INPUT -m mac --mac-source2C:60:0C:A9:9E:48 -j DROP
+ 
+
+
+
